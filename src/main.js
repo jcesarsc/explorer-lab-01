@@ -1,8 +1,8 @@
 import "./css/index.css";
 import IMask from "imask";
 
-const ccBgColor01 = document.querySelector("div.cc-bg > svg > g > g:nth-child(1) > path");
-const ccBgColor02 = document.querySelector("div.cc-bg > svg > g > g:nth-child(2) > path");
+const ccBgColor01 = document.querySelector(".cc-bg > svg > g > g:nth-child(1) > path");
+const ccBgColor02 = document.querySelector(".cc-bg > svg > g > g:nth-child(2) > path");
 const ccBgLogo01 = document.querySelector(".cc-logo > span:nth-child(2) > img");
 
 function setCardType(type) {
@@ -78,9 +78,44 @@ const cardNumberMasked = IMask(cardNumber, cardNumberPattern);
 
 const addButton = document.querySelector("#add-card");
 addButton.addEventListener("click", () => {
-  console.log("vc clicou");
+  alert("cartão adicionado");
 });
 
 document.querySelector("form").addEventListener("submit", (event) => {
   event.preventDefault();
 });
+
+const cardHolder = document.querySelector("#card-holder");
+cardHolder.addEventListener("input", () => {
+  const ccHolder = document.querySelector(".cc-holder .value");
+  ccHolder.innerText = cardHolder.value.length === 0 ? "Fulano da Silva" : cardHolder.value;
+});
+
+securityCodeMasked.on("accept", () => {
+  updateSecurityCode(securityCodeMasked.value);
+});
+
+function updateSecurityCode(code) {
+  const ccSecurity = document.querySelector(".cc-security .value");
+  ccSecurity.innerText = code.length === 0 ? "123" : code;
+}
+
+cardNumberMasked.on("accept", () => {
+  const cardType = cardNumberMasked.masked.currentMask.cardtype;
+  setCardType(cardType);
+  updateCardNumber(cardNumberMasked.value);
+});
+
+function updateCardNumber(number) {
+  const ccNumber = document.querySelector(".cc-number");
+  ccNumber.innerText = number.length === 0 ? "1234 5678 9012 3456" : number;
+}
+
+expirationDateMasked.on("accept", () => {
+  updateExpDate(expirationDateMasked.value);
+});
+
+function updateExpDate(expDate) {
+  const ccExpiration = document.querySelector(".cc-expiration .value");
+  ccExpiration.innerText = expDate.length === 0 ? "02/32" : expDate;
+}
